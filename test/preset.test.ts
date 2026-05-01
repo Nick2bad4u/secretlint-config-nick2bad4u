@@ -1,110 +1,58 @@
-import type { Linter } from "eslint";
-
-import nickTwoBadFourU, {
+import config, {
     createConfig,
-    presets,
-} from "eslint-config-nick2bad4u";
+    config as namedConfig,
+    rules,
+} from "secretlint-config-nick2bad4u";
 import { describe, expect, it } from "vitest";
 
-/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types -- Linter.Config is ESLint's mutable public config shape. */
+// eslint-disable-next-line import-x/extensions -- JSON module imports require the explicit .json extension.
+import secretlintrc from "../.secretlintrc.json" with { type: "json" };
 
-const getRuleNames = (configEntries: readonly Linter.Config[]): Set<string> => {
-    const ruleNames = configEntries.flatMap((configEntry) =>
-        Object.keys(configEntry.rules ?? {})
-    );
+const expectedRuleIds = [
+    "@secretlint/secretlint-rule-aws",
+    "@secretlint/secretlint-rule-gcp",
+    "@secretlint/secretlint-rule-github",
+    "@secretlint/secretlint-rule-npm",
+    "@secretlint/secretlint-rule-database-connection-string",
+    "@secretlint/secretlint-rule-openai",
+    "@secretlint/secretlint-rule-anthropic",
+    "@secretlint/secretlint-rule-no-dotenv",
+    "@secretlint/secretlint-rule-no-homedir",
+    "@secretlint/secretlint-rule-privatekey",
+    "@secretlint/secretlint-rule-pattern",
+    "@secretlint/secretlint-rule-secp256k1-privatekey",
+] as const;
 
-    return new Set(ruleNames);
-};
-
-const getRegisteredPluginNames = (
-    configEntries: readonly Linter.Config[]
-): Set<string> => {
-    const pluginNames = configEntries.flatMap((configEntry) =>
-        Object.keys(configEntry.plugins ?? {})
-    );
-
-    return new Set(pluginNames);
-};
-
-const hasRuleFromPlugin = (
-    configEntries: readonly Linter.Config[],
-    pluginName: string
-): boolean =>
-    [...getRuleNames(configEntries)].some((ruleName) =>
-        ruleName.startsWith(`${pluginName}/`)
-    );
-/* eslint-enable @typescript-eslint/prefer-readonly-parameter-types -- Re-enable after local Linter.Config helpers. */
-
-describe("eslint-config-nick2bad4u presets", () => {
-    it("exposes plugin-style flat config presets", () => {
+describe("secretlint-config-nick2bad4u", () => {
+    it("exports the repository Secretlint rules as the default config", () => {
         expect.assertions(4);
 
-        expect(nickTwoBadFourU.configs).toBe(presets);
-        expect(presets.all.length).toBeGreaterThan(0);
-        expect(presets.recommended).toBe(presets.all);
-        expect(Array.isArray(presets.all)).toBeTruthy();
+        expect(config).toBe(namedConfig);
+        expect(config.rules).toStrictEqual(secretlintrc.rules);
+        expect(rules).toStrictEqual(secretlintrc.rules);
+        expect(rules.map((rule) => rule.id)).toStrictEqual(expectedRuleIds);
     });
 
-    it.each([
-        ["withoutChunkyLint", "chunkylint"],
-        ["withoutCopilot", "copilot"],
-        ["withoutDocusaurus2", "docusaurus-2"],
-        ["withoutEtcMisc", "etc-misc"],
-        ["withoutFileProgress2", "file-progress-2"],
-        ["withoutGithubActions2", "github-actions-2"],
-        ["withoutImmutable2", "immutable-2"],
-        ["withoutRepo", "repo"],
-        ["withoutSdl2", "sdl-2"],
-        ["withoutStylelint2", "stylelint-2"],
-        ["withoutTsconfig", "tsconfig"],
-        ["withoutTsdocRequire2", "tsdoc-require-2"],
-        ["withoutTypefest", "typefest"],
-        ["withoutTypedoc", "typedoc"],
-        ["withoutUptimeWatcher", "uptime-watcher"],
-        ["withoutVite", "vite"],
-        ["withoutWriteGoodComments2", "write-good-comments-2"],
-    ] as const)(
-        "removes %s plugin rules from the preset",
-        (presetName, pluginName) => {
-            expect.assertions(2);
+    it("creates a fresh config object with appended project rules", () => {
+        expect.assertions(3);
 
-            const preset = presets[presetName];
-            const registeredPluginNames = getRegisteredPluginNames(preset);
+        const localRule = {
+            id: "@secretlint/secretlint-rule-preset-recommend",
+            rules: [],
+        };
+        const localConfig = createConfig({ rules: [localRule] });
 
-            expect(hasRuleFromPlugin(preset, pluginName)).toBeFalsy();
-            expect(registeredPluginNames.has(pluginName)).toBeFalsy();
-        }
-    );
+        expect(localConfig).not.toBe(config);
+        expect(localConfig.rules).toHaveLength(rules.length + 1);
+        expect(localConfig.rules.at(-1)).toStrictEqual(localRule);
+    });
 
-    it("keeps full preset rules in the all preset", () => {
+    it("does not mutate the shared rule array when composing config", () => {
         expect.assertions(2);
 
-        expect(hasRuleFromPlugin(presets.all, "copilot")).toBeTruthy();
-        expect(hasRuleFromPlugin(presets.all, "typefest")).toBeTruthy();
-    });
+        const localConfig = createConfig();
 
-    it("supports local source-rule plugin replacement via createConfig", () => {
-        expect.assertions(1);
-
-        const localTypefestPlugin = {
-            configs: {
-                experimental: {
-                    rules: {
-                        "typefest/local-only": "error",
-                    },
-                },
-            },
-            rules: {},
-        };
-
-        const configEntries = createConfig({
-            plugins: {
-                typefest: localTypefestPlugin,
-            },
-        });
-
-        expect(
-            getRuleNames(configEntries).has("typefest/local-only")
-        ).toBeTruthy();
+        expect(localConfig.rules).toStrictEqual(rules);
+        expect(localConfig.rules).not.toBe(rules);
     });
 });

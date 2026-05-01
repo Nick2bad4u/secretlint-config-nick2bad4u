@@ -1,5 +1,5 @@
-## Removed README wording
+## Template conversion notes
 
-Moved out of `README.md` per maintainer request:
+This repository was converted from the shared ESLint config template into `secretlint-config-nick2bad4u`.
 
-> This package currently targets ESLint 10. The copied Docusaurus JSX-a11y add-on was intentionally omitted because `eslint-plugin-jsx-a11y@6` does not yet publish an ESLint 10 peer range, while the rest of this stack is already on ESLint 10.
+The root `eslint.config.mjs` now only dogfoods the external `eslint-config-nick2bad4u` package for repository linting. The package entrypoint is `preset.mjs`, which exports the shared Secretlint config descriptor sourced from `.secretlintrc.json`.

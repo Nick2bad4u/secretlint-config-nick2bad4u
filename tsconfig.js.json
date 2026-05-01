@@ -23,6 +23,7 @@
     ],
     "extends": "./tsconfig.json",
     "include": [
+        ".secretlintrc.json",
         "*.cjs",
         "*.d.cts",
         "*.d.ts",

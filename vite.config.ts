@@ -22,11 +22,7 @@ const maxWorkerCount =
         : 1;
 /** Raw flag controlling optional hanging-process reporter activation. */
 const rawHangingReporterFlag =
-    process.env[
-        "STYLELINT_PLUGIN_DOCUSAURUS_VITEST_HANGING_PROCESS_REPORTER"
-    ] ??
-    process.env["VITEST_HANGING_PROCESS_REPORTER"] ??
-    "false";
+    process.env["VITEST_HANGING_PROCESS_REPORTER"] ?? "false";
 /** Raw flag controlling optional Vitest typecheck execution. */
 const rawVitestTypecheckFlag = process.env["VITEST_TYPECHECK"] ?? "true";
 /** Normalized `true` when hanging-process reporter is explicitly enabled. */
@@ -64,7 +60,7 @@ const typecheckTestFilePatterns = [
 ];
 
 /**
- * Vitest configuration for eslint-config-nick2bad4u.
+ * Vitest configuration for secretlint-config-nick2bad4u.
  */
 const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
     cacheDir: "./.cache/vitest",
@@ -144,7 +140,7 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
                 ...coverageConfigDefaults.exclude,
             ],
             excludeAfterRemap: true, // Exclude files after remapping for accuracy
-            include: ["eslint.config.mjs", "preset.mjs"],
+            include: ["preset.mjs"],
             // V8 Provider Configuration (Recommended since Vitest v3.2.0)
             provider: "v8" as const, // Switch to V8 for better TypeScript support
             reporter: [
@@ -205,7 +201,7 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
             PACKAGE_VERSION: process.env["PACKAGE_VERSION"] ?? "unknown",
         },
         environment: "node",
-        // Test file patterns - exclude electron tests as they have their own config
+        // Test file patterns for this package-level suite.
         exclude: [
             "**/coverage/**",
             "**/dist/**",
@@ -216,9 +212,8 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
         ],
         expect: {
             poll: { interval: 50, timeout: 15_000 },
-            // RuleTester-driven suites validate via ESLint internals rather than
-            // direct Vitest `expect(...)` calls, so enabling this globally causes
-            // false failures (`expected any number of assertion, but got none`).
+            // Keep this disabled globally because test files already declare
+            // explicit assertion counts where they need stricter guarantees.
             requireAssertions: false,
         },
         fakeTimers: {

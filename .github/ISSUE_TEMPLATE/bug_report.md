@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a reproducible bug in eslint-plugin-tsconfig
+about: Report a reproducible bug in secretlint-config-nick2bad4u
 title: "Bug: "
 labels:
     - bug
@@ -14,14 +14,14 @@ assignees: []
 
 ## Rule / Area
 
-<!-- Example: prefer-ts-extras-array-at, docs/docusaurus, presets, runtime API docs -->
+<!-- Example: AWS rule allowlist, pattern rule, package exports, docs -->
 
 ## Reproduction
 
-### Flat config snippet
+### Secretlint config snippet
 
 ```mjs
-// Minimal eslint.config.mjs (or relevant excerpt)
+// Minimal .secretlintrc.js or .secretlintrc.json excerpt
 ```
 
 ### Minimal code sample
@@ -33,7 +33,7 @@ assignees: []
 ### Command and output
 
 ```bash
-# Example: npm run test -- test/prefer-ts-extras-array-at.test.ts
+# Example: npm run test -- test/preset.test.ts
 ```
 
 ## Steps to reproduce
@@ -50,10 +50,8 @@ assignees: []
 
 - Node.js version:
 - npm version:
-- ESLint version:
-- TypeScript version:
-- `@typescript-eslint/*` version:
-- `eslint-plugin-tsconfig` version/commit:
+- Secretlint version:
+- `secretlint-config-nick2bad4u` version/commit:
 - OS:
 
 ## Additional context

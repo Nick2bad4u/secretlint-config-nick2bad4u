@@ -30,6 +30,7 @@
     ],
     "extends": "./tsconfig.json",
     "include": [
+        ".secretlintrc.json",
         "index.d.ts",
         "eslint.config.mjs",
         "preset.mjs"

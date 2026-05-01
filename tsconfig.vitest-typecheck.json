@@ -14,6 +14,7 @@
     ],
     "extends": "./tsconfig.json",
     "include": [
+        ".secretlintrc.json",
         "index.d.ts",
         "test/**/*.d.ts",
         "test/**/*.ts",

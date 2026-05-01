@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest a new rule or improvement for eslint-plugin-tsconfig
+about: Suggest a new rule or improvement for secretlint-config-nick2bad4u
 title: "Feature: "
 labels:
     - enhancement
@@ -14,13 +14,12 @@ assignees: []
 
 ## Proposed solution
 
-<!-- Describe expected behavior, messages, and fixer/suggestion expectations. -->
+<!-- Describe expected behavior, rule options, allowlists, or package API changes. -->
 
 ## Scope
 
-- Type: New rule / Rule enhancement / Config preset / Docs / Tooling
+- Type: New Secretlint rule / Rule option change / Config export / Docs / Tooling
 - Affected rule IDs (if any):
-- Requires type checking?: Yes / No / Unsure
 
 ## Alternatives considered
 
@@ -41,6 +40,6 @@ assignees: []
 ## Acceptance criteria
 
 - [ ] Clear, actionable diagnostic message(s)
-- [ ] Safe autofix or suggestion behavior defined
-- [ ] Test coverage plan (valid/invalid/edge/fixer)
-- [ ] Documentation impact identified (`docs/rules/<rule-id>.md` if rule-related)
+- [ ] False-positive risk and allowlist behavior considered
+- [ ] Test coverage plan identified
+- [ ] Documentation impact identified

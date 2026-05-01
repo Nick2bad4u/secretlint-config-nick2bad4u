@@ -103,6 +103,7 @@
         "test/fixtures/**"
     ],
     "include": [
+        ".secretlintrc.json",
         "index.d.ts",
         "test/**/*.d.ts",
         "test/**/*.ts",
