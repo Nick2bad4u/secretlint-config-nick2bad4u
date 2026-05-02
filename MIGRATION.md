@@ -108,7 +108,7 @@ npx secretlint --secretlintrc .secretlintrc.js --secretlintignore .gitignore "**
 ## One-shot migration block
 
 ```powershell
-npm uninstall --save-dev `
+npm uninstall --save-dev --force `
   @secretlint/secretlint-rule-anthropic `
   @secretlint/secretlint-rule-aws `
   @secretlint/secretlint-rule-database-connection-string `
@@ -124,7 +124,7 @@ npm uninstall --save-dev `
   @secretlint/secretlint-rule-secp256k1-privatekey `
   @secretlint/types
 
-npm install --save-dev secretlint secretlint-config-nick2bad4u
+npm install --save-dev secretlint secretlint-config-nick2bad4u --force
 
 @'
 import sharedConfig from "secretlint-config-nick2bad4u";
