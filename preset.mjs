@@ -28,6 +28,6 @@ export const createConfig = (options = {}) => ({
 });
 
 /** @type {SecretLintConfigDescriptor} */
-export const config = createConfig();
+export const defaultConfig = createConfig();
 
-export default config;
+export default defaultConfig;

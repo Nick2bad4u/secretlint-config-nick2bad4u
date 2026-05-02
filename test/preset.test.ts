@@ -1,6 +1,6 @@
-import config, {
+import defaultConfig, {
     createConfig,
-    config as namedConfig,
+    defaultConfig as namedDefaultConfig,
     rules,
 } from "secretlint-config-nick2bad4u";
 import { describe, expect, it } from "vitest";
@@ -27,8 +27,8 @@ describe("secretlint-config-nick2bad4u", () => {
     it("exports the repository Secretlint rules as the default config", () => {
         expect.assertions(4);
 
-        expect(config).toBe(namedConfig);
-        expect(config.rules).toStrictEqual(secretlintrc.rules);
+        expect(defaultConfig).toBe(namedDefaultConfig);
+        expect(defaultConfig.rules).toStrictEqual(secretlintrc.rules);
         expect(rules).toStrictEqual(secretlintrc.rules);
         expect(rules.map((rule) => rule.id)).toStrictEqual(expectedRuleIds);
     });
@@ -42,7 +42,7 @@ describe("secretlint-config-nick2bad4u", () => {
         };
         const localConfig = createConfig({ rules: [localRule] });
 
-        expect(localConfig).not.toBe(config);
+        expect(localConfig).not.toBe(defaultConfig);
         expect(localConfig.rules).toHaveLength(rules.length + 1);
         expect(localConfig.rules.at(-1)).toStrictEqual(localRule);
     });

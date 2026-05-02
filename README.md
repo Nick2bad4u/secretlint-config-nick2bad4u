@@ -15,9 +15,9 @@ npm install --save-dev secretlint secretlint-config-nick2bad4u
 Create `.secretlintrc.js` in a consuming project:
 
 ```js
-import nick2bad4uSecretlint from "secretlint-config-nick2bad4u";
+import sharedConfig from "secretlint-config-nick2bad4u";
 
-export default nick2bad4uSecretlint;
+export default sharedConfig;
 ```
 
 Run Secretlint with your project globs:
@@ -44,6 +44,9 @@ export default createConfig({
 ```
 
 The package also exports `rules` if a consumer needs to inspect or compose the raw rule descriptors.
+
+Using a neutral local name like `sharedConfig` avoids `import-x/no-named-as-default`
+noise in repos that enable that rule.
 
 ## Enabled rule packages
 

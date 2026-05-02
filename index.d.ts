@@ -18,7 +18,7 @@ export declare const createConfig: (
     options?: Readonly<Nick2Bad4USecretlintConfigOptions>
 ) => SecretLintConfigDescriptor;
 
-/** Shared Secretlint config descriptor. */
-export declare const config: SecretLintConfigDescriptor;
+/** Shared Secretlint config descriptor used by the default export. */
+export declare const defaultConfig: SecretLintConfigDescriptor;
 
-export default config;
+export default defaultConfig;
