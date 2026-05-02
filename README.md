@@ -12,10 +12,10 @@ npm install --save-dev secretlint secretlint-config-nick2bad4u
 
 ## Usage
 
-Create `.secretlintrc.js` in a consuming project:
+Create `.secretlintrc.cjs` in a consuming project:
 
 ```js
-import sharedConfig from "secretlint-config-nick2bad4u";
+const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
 
 /**
  * @type {import("@secretlint/types").SecretLintConfigDescriptor}
@@ -25,8 +25,12 @@ const secretlintConfig = {
     rules: [...sharedConfig.rules],
 };
 
-export default secretlintConfig;
+module.exports = secretlintConfig;
 ```
+
+Use `.secretlintrc.cjs` here because Secretlint loads JavaScript config files
+through a CommonJS-based rc loader. An ESM `.secretlintrc.js` with
+`export default` will not be read correctly.
 
 Run Secretlint with your project globs:
 
@@ -39,7 +43,7 @@ npx secretlint "**/*"
 Use the `rules` array when a project needs to append project-local Secretlint rules after the shared baseline:
 
 ```js
-import sharedConfig from "secretlint-config-nick2bad4u";
+const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
 
 /**
  * @type {import("@secretlint/types").SecretLintConfigDescriptor}
@@ -52,10 +56,10 @@ const secretlintConfig = {
     ],
 };
 
-export default secretlintConfig;
+module.exports = secretlintConfig;
 ```
 
-The package also exports `createConfig`, `defaultConfig`, and `rules` if a consumer needs lower-level composition helpers.
+The package also exports `createConfig`, `defaultConfig`, and `rules` if you need lower-level composition helpers outside Secretlint's rc loader path.
 
 Using a neutral local name like `sharedConfig` avoids `import-x/no-named-as-default`
 noise in repos that enable that rule.

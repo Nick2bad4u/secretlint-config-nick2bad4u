@@ -40,25 +40,26 @@ Adjust the relative path if needed.
 
 ## 3. Replace local Secretlint config with shared import
 
-For ESM repos, create/overwrite `.secretlintrc.js`:
+Secretlint's JS config loader is CommonJS-based, so create/overwrite
+`.secretlintrc.cjs` instead of using an ESM `.secretlintrc.js` file:
 
 ```powershell
 @'
-import sharedConfig from "secretlint-config-nick2bad4u";
+const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
 
 /**
  * @type {import("@secretlint/types").SecretLintConfigDescriptor}
  */
 const secretlintConfig = {
-  ...sharedConfig,
-  rules: [
-    ...sharedConfig.rules,
-    // Add project-specific Secretlint rules here.
-  ],
+    ...sharedConfig,
+    rules: [
+        ...sharedConfig.rules,
+        // Add project-specific Secretlint rules here.
+    ],
 };
 
-export default secretlintConfig;
-'@ | Set-Content -Path ".secretlintrc.js" -Encoding utf8
+module.exports = secretlintConfig;
+'@ | Set-Content -Path ".secretlintrc.cjs" -Encoding utf8
 ```
 
 Then remove the old JSON config if present:
@@ -67,6 +68,7 @@ Then remove the old JSON config if present:
 Remove-Item ".secretlintrc.json" -ErrorAction SilentlyContinue
 Remove-Item ".secretlintrc.yaml" -ErrorAction SilentlyContinue
 Remove-Item ".secretlintrc.yml" -ErrorAction SilentlyContinue
+Remove-Item ".secretlintrc.js" -ErrorAction SilentlyContinue
 ```
 
 ## 4. Optional: compose local extra rules
@@ -76,21 +78,21 @@ array as the override point:
 
 ```powershell
 @'
-import sharedConfig from "secretlint-config-nick2bad4u";
+const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
 
 /**
  * @type {import("@secretlint/types").SecretLintConfigDescriptor}
  */
 const secretlintConfig = {
-  ...sharedConfig,
+    ...sharedConfig,
     rules: [
-    ...sharedConfig.rules,
-    // { id: "@secretlint/secretlint-rule-pattern", options: {} }, // your override here
+        ...sharedConfig.rules,
+        // { id: "@secretlint/secretlint-rule-pattern", options: {} }, // your override here
     ],
 };
 
-export default secretlintConfig;
-'@ | Set-Content -Path ".secretlintrc.js" -Encoding utf8
+module.exports = secretlintConfig;
+'@ | Set-Content -Path ".secretlintrc.cjs" -Encoding utf8
 ```
 
 ## 5. Verify
@@ -102,7 +104,7 @@ npm run lint:secretlint
 If the repo does not have that script:
 
 ```powershell
-npx secretlint --secretlintrc .secretlintrc.js --secretlintignore .gitignore "**/*"
+npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore "**/*"
 ```
 
 ## One-shot migration block
@@ -127,25 +129,42 @@ npm uninstall --save-dev --force `
 npm install --save-dev secretlint secretlint-config-nick2bad4u --force
 
 @'
-import sharedConfig from "secretlint-config-nick2bad4u";
+const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
 
 /**
  * @type {import("@secretlint/types").SecretLintConfigDescriptor}
  */
 const secretlintConfig = {
-  ...sharedConfig,
-  rules: [
-    ...sharedConfig.rules,
-    // Add project-specific Secretlint rules here.
-  ],
+    ...sharedConfig,
+    rules: [
+        ...sharedConfig.rules,
+        // Add project-specific Secretlint rules here.
+    ],
 };
 
-export default secretlintConfig;
-'@ | Set-Content -Path ".secretlintrc.js" -Encoding utf8
+module.exports = secretlintConfig;
+'@ | Set-Content -Path ".secretlintrc.cjs" -Encoding utf8
 
 Remove-Item ".secretlintrc.json" -ErrorAction SilentlyContinue
 Remove-Item ".secretlintrc.yaml" -ErrorAction SilentlyContinue
 Remove-Item ".secretlintrc.yml" -ErrorAction SilentlyContinue
+Remove-Item ".secretlintrc.js" -ErrorAction SilentlyContinue
 
-npx secretlint --secretlintrc .secretlintrc.js --secretlintignore .gitignore "**/*"
+npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore "**/*"
+```
+
+# Replace scripts with new config location
+
+```powershell
+$old = '.secretlintrc.json'
+$new = '.secretlintrc.cjs'
+
+$package = Get-Content .\package.json -Raw | ConvertFrom-Json -AsHashtable
+
+foreach ($scriptName in @($package.scripts.Keys)) {
+    $package.scripts[$scriptName] = $package.scripts[$scriptName].Replace($old, $new)
+}
+
+$package | ConvertTo-Json -Depth 100 | Set-Content .\package.json
+npm run lint:package:fix
 ```
