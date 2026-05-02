@@ -22,17 +22,7 @@
     ],
     "extends": "./tsconfig.json",
     "include": [
-        ".secretlintrc.json",
-        "*.cjs",
-        "*.d.cts",
-        "*.d.ts",
-        "*.d.mts",
-        "*.mjs",
-        "*.ts",
-        ".remarkrc.mjs",
-        "test/**/*.d.ts",
-        "test/**/*.mjs",
-        "test/**/*.ts",
-        "vite.config.ts"
+        "**/*",
+        "**/.*"
     ]
 }

@@ -45,6 +45,9 @@ Secretlint's JS config loader is CommonJS-based, so create/overwrite
 
 ```powershell
 @'
+/*
+ * This is the Secretlint configuration file for the project.
+ */
 const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
 
 /**
@@ -59,6 +62,7 @@ const secretlintConfig = {
 };
 
 module.exports = secretlintConfig;
+
 '@ | Set-Content -Path ".secretlintrc.cjs" -Encoding utf8
 ```
 
@@ -129,6 +133,9 @@ npm uninstall --save-dev --force `
 npm install --save-dev secretlint secretlint-config-nick2bad4u --force
 
 @'
+/*
+ * This is the Secretlint configuration file for the project.
+ */
 const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
 
 /**
@@ -143,6 +150,7 @@ const secretlintConfig = {
 };
 
 module.exports = secretlintConfig;
+
 '@ | Set-Content -Path ".secretlintrc.cjs" -Encoding utf8
 
 Remove-Item ".secretlintrc.json" -ErrorAction SilentlyContinue
@@ -150,12 +158,8 @@ Remove-Item ".secretlintrc.yaml" -ErrorAction SilentlyContinue
 Remove-Item ".secretlintrc.yml" -ErrorAction SilentlyContinue
 Remove-Item ".secretlintrc.js" -ErrorAction SilentlyContinue
 
-npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore "**/*"
-```
+# # Replace scripts with new config location
 
-# Replace scripts with new config location
-
-```powershell
 $old = '.secretlintrc.json'
 $new = '.secretlintrc.cjs'
 
@@ -167,4 +171,7 @@ foreach ($scriptName in @($package.scripts.Keys)) {
 
 $package | ConvertTo-Json -Depth 100 | Set-Content .\package.json
 npm run lint:package:fix
+npm run lint:prettier -- package.json --write
+
+npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore "**/*"
 ```
