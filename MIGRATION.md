@@ -46,7 +46,18 @@ For ESM repos, create/overwrite `.secretlintrc.js`:
 @'
 import sharedConfig from "secretlint-config-nick2bad4u";
 
-export default sharedConfig;
+/**
+ * @type {import("@secretlint/types").SecretLintConfigDescriptor}
+ */
+const secretlintConfig = {
+  ...sharedConfig,
+  rules: [
+    ...sharedConfig.rules,
+    // Add project-specific Secretlint rules here.
+  ],
+};
+
+export default secretlintConfig;
 '@ | Set-Content -Path ".secretlintrc.js" -Encoding utf8
 ```
 
@@ -60,17 +71,25 @@ Remove-Item ".secretlintrc.yml" -ErrorAction SilentlyContinue
 
 ## 4. Optional: compose local extra rules
 
-If a repo needs extra project-local rules:
+If a repo needs extra project-local rules or local overrides, use the `rules`
+array as the override point:
 
 ```powershell
 @'
-import { createConfig } from "secretlint-config-nick2bad4u";
+import sharedConfig from "secretlint-config-nick2bad4u";
 
-export default createConfig({
+/**
+ * @type {import("@secretlint/types").SecretLintConfigDescriptor}
+ */
+const secretlintConfig = {
+  ...sharedConfig,
     rules: [
-        // Add project-specific Secretlint rules here.
+    ...sharedConfig.rules,
+    // { id: "@secretlint/secretlint-rule-pattern", options: {} }, // your override here
     ],
-});
+};
+
+export default secretlintConfig;
 '@ | Set-Content -Path ".secretlintrc.js" -Encoding utf8
 ```
 
@@ -110,7 +129,18 @@ npm install --save-dev secretlint secretlint-config-nick2bad4u
 @'
 import sharedConfig from "secretlint-config-nick2bad4u";
 
-export default sharedConfig;
+/**
+ * @type {import("@secretlint/types").SecretLintConfigDescriptor}
+ */
+const secretlintConfig = {
+  ...sharedConfig,
+  rules: [
+    ...sharedConfig.rules,
+    // Add project-specific Secretlint rules here.
+  ],
+};
+
+export default secretlintConfig;
 '@ | Set-Content -Path ".secretlintrc.js" -Encoding utf8
 
 Remove-Item ".secretlintrc.json" -ErrorAction SilentlyContinue

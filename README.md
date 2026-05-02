@@ -17,7 +17,15 @@ Create `.secretlintrc.js` in a consuming project:
 ```js
 import sharedConfig from "secretlint-config-nick2bad4u";
 
-export default sharedConfig;
+/**
+ * @type {import("@secretlint/types").SecretLintConfigDescriptor}
+ */
+const secretlintConfig = {
+    ...sharedConfig,
+    rules: [...sharedConfig.rules],
+};
+
+export default secretlintConfig;
 ```
 
 Run Secretlint with your project globs:
@@ -28,22 +36,26 @@ npx secretlint "**/*"
 
 ## Compose with local rules
 
-Use `createConfig` when a project needs to append project-local Secretlint rules after the shared baseline:
+Use the `rules` array when a project needs to append project-local Secretlint rules after the shared baseline:
 
 ```js
-import { createConfig } from "secretlint-config-nick2bad4u";
+import sharedConfig from "secretlint-config-nick2bad4u";
 
-export default createConfig({
+/**
+ * @type {import("@secretlint/types").SecretLintConfigDescriptor}
+ */
+const secretlintConfig = {
+    ...sharedConfig,
     rules: [
-        {
-            id: "@secretlint/secretlint-rule-preset-recommend",
-            rules: [],
-        },
+        ...sharedConfig.rules,
+        // { id: "@secretlint/secretlint-rule-pattern", options: {} }, // your override here
     ],
-});
+};
+
+export default secretlintConfig;
 ```
 
-The package also exports `rules` if a consumer needs to inspect or compose the raw rule descriptors.
+The package also exports `createConfig`, `defaultConfig`, and `rules` if a consumer needs lower-level composition helpers.
 
 Using a neutral local name like `sharedConfig` avoids `import-x/no-named-as-default`
 noise in repos that enable that rule.
