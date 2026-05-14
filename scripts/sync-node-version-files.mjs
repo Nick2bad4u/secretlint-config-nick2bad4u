@@ -61,79 +61,93 @@ const normalizeNodeVersion = (version) => {
 const isRecord = (value) => typeof value === "object" && value !== null;
 
 /**
+ * @typedef {{
+ *     checkOnly: boolean;
+ *     checkCurrent: boolean;
+ *     explicitVersion: string | null;
+ * }} ParsedArguments
+ */
+
+/**
+ * Apply a single command-line argument and return the next argument index.
+ *
+ * @param {readonly string[]} argumentList
+ * @param {number} argumentIndex
+ * @param {ParsedArguments} parsedArguments
+ *
+ * @returns {number}
+ *
+ * @throws {TypeError} Throws when an argument is unknown or missing a value.
+ */
+const applyArgument = (argumentList, argumentIndex, parsedArguments) => {
+    const argument = argumentList[argumentIndex];
+
+    if (typeof argument !== "string") {
+        throw new TypeError(
+            `Expected a string command-line argument at index ${argumentIndex}.`
+        );
+    }
+
+    if (argument === "--check") {
+        parsedArguments.checkOnly = true;
+        return argumentIndex;
+    }
+
+    if (argument === "--check-current") {
+        parsedArguments.checkCurrent = true;
+        return argumentIndex;
+    }
+
+    if (argument === "--version") {
+        const nextArgument = argumentList[argumentIndex + 1];
+
+        if (typeof nextArgument !== "string") {
+            throw new TypeError("Expected a version after --version.");
+        }
+
+        parsedArguments.explicitVersion = normalizeNodeVersion(nextArgument);
+        return argumentIndex + 1;
+    }
+
+    if (argument.startsWith("--version=")) {
+        parsedArguments.explicitVersion = normalizeNodeVersion(
+            argument.slice("--version=".length)
+        );
+        return argumentIndex;
+    }
+
+    throw new TypeError(`Unknown argument: ${argument}`);
+};
+
+/**
  * Parse supported command-line arguments and return normalized options.
  *
  * @param {readonly string[]} argumentList
  *
- * @returns {{
- *     checkOnly: boolean;
- *     checkCurrent: boolean;
- *     explicitVersion: string | null;
- * }}
+ * @returns {ParsedArguments}
  *
  * @throws {TypeError} Throws when an argument is unknown, missing, or
  *   incompatible.
  */
 const parseArguments = (argumentList) => {
-    /** @type {boolean} */
-    let checkOnly = false;
-    /** @type {boolean} */
-    let checkCurrent = false;
-    /** @type {string | null} */
-    let explicitVersion = null;
+    /** @type {ParsedArguments} */
+    const parsedArguments = {
+        checkCurrent: false,
+        checkOnly: false,
+        explicitVersion: null,
+    };
 
     for (let index = 0; index < argumentList.length; index += 1) {
-        const argument = argumentList[index];
-
-        if (typeof argument !== "string") {
-            throw new TypeError(
-                `Expected a string command-line argument at index ${index}.`
-            );
-        }
-
-        if (argument === "--check") {
-            checkOnly = true;
-            continue;
-        }
-
-        if (argument === "--check-current") {
-            checkCurrent = true;
-            continue;
-        }
-
-        if (argument === "--version") {
-            const nextArgument = argumentList[index + 1];
-
-            if (typeof nextArgument !== "string") {
-                throw new TypeError("Expected a version after --version.");
-            }
-
-            explicitVersion = normalizeNodeVersion(nextArgument);
-            index += 1;
-            continue;
-        }
-
-        if (argument.startsWith("--version=")) {
-            explicitVersion = normalizeNodeVersion(
-                argument.slice("--version=".length)
-            );
-            continue;
-        }
-
-        throw new TypeError(`Unknown argument: ${argument}`);
+        index = applyArgument(argumentList, index, parsedArguments);
     }
 
-    if (checkOnly && checkCurrent) {
+    if (parsedArguments.checkOnly && parsedArguments.checkCurrent) {
         throw new TypeError(
             "Use either --check or --check-current, but not both together."
         );
     }
 
-    return {
-        checkCurrent,
-        checkOnly,
-        explicitVersion,
-    };
+    return parsedArguments;
 };
 
 /**
