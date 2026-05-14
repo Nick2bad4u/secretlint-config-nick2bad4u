@@ -9,17 +9,17 @@ import { describe, expect, it } from "vitest";
 import secretlintrc from "../.secretlintrc.json" with { type: "json" };
 
 const expectedRuleIds = [
+    "@secretlint/secretlint-rule-anthropic",
     "@secretlint/secretlint-rule-aws",
+    "@secretlint/secretlint-rule-database-connection-string",
     "@secretlint/secretlint-rule-gcp",
     "@secretlint/secretlint-rule-github",
-    "@secretlint/secretlint-rule-npm",
-    "@secretlint/secretlint-rule-database-connection-string",
-    "@secretlint/secretlint-rule-openai",
-    "@secretlint/secretlint-rule-anthropic",
     "@secretlint/secretlint-rule-no-dotenv",
     "@secretlint/secretlint-rule-no-homedir",
-    "@secretlint/secretlint-rule-privatekey",
+    "@secretlint/secretlint-rule-npm",
+    "@secretlint/secretlint-rule-openai",
     "@secretlint/secretlint-rule-pattern",
+    "@secretlint/secretlint-rule-privatekey",
     "@secretlint/secretlint-rule-secp256k1-privatekey",
 ] as const;
 
@@ -30,7 +30,11 @@ describe("secretlint-config-nick2bad4u", () => {
         expect(defaultConfig).toBe(namedDefaultConfig);
         expect(defaultConfig.rules).toStrictEqual(secretlintrc.rules);
         expect(rules).toStrictEqual(secretlintrc.rules);
-        expect(rules.map((rule) => rule.id)).toStrictEqual(expectedRuleIds);
+        expect(
+            rules
+                .map((rule) => rule.id)
+                .toSorted((left, right) => left.localeCompare(right))
+        ).toStrictEqual(expectedRuleIds);
     });
 
     it("creates a fresh config object with appended project rules", () => {

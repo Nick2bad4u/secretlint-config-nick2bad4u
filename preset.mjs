@@ -2,7 +2,7 @@
 import sharedConfigDescriptor from "./.secretlintrc.json" with { type: "json" };
 
 /**
- * @import {SecretLintConfigDescriptor} from "@secretlint/types"
+ * @typedef {import("@secretlint/types").SecretLintConfigDescriptor} SecretLintConfigDescriptor
  */
 
 /**
@@ -16,16 +16,18 @@ export const rules = [...sharedConfigDescriptor.rules];
  * Create a Secretlint config descriptor, optionally appending project-local
  * rules after the shared rules.
  *
- * @type {(
- *     options?: Readonly<{
- *         readonly rules?: SecretLintConfigDescriptor["rules"];
- *     }>
- * ) => SecretLintConfigDescriptor}
+ * @param {Readonly<{
+ *     readonly rules?: SecretLintConfigDescriptor["rules"];
+ * }>} [options]
+ *
+ * @returns {SecretLintConfigDescriptor}
  */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types -- The JSDoc @type above is the public signature for this checked JavaScript module.
-export const createConfig = (options = {}) => ({
-    rules: [...rules, ...(options.rules ?? [])],
-});
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- This module is JavaScript; the public signature is expressed through JSDoc for checked JS consumers.
+export function createConfig(options = {}) {
+    return {
+        rules: [...rules, ...(options.rules ?? [])],
+    };
+}
 
 /** @type {SecretLintConfigDescriptor} */
 export const defaultConfig = createConfig();
