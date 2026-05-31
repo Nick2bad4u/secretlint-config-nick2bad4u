@@ -11,7 +11,9 @@ import secretlintrc from "../.secretlintrc.json" with { type: "json" };
 const expectedRuleIds = [
     "@secretlint/secretlint-rule-anthropic",
     "@secretlint/secretlint-rule-aws",
+    "@secretlint/secretlint-rule-basicauth",
     "@secretlint/secretlint-rule-database-connection-string",
+    "@secretlint/secretlint-rule-filter-comments",
     "@secretlint/secretlint-rule-gcp",
     "@secretlint/secretlint-rule-github",
     "@secretlint/secretlint-rule-no-dotenv",
@@ -20,7 +22,6 @@ const expectedRuleIds = [
     "@secretlint/secretlint-rule-openai",
     "@secretlint/secretlint-rule-pattern",
     "@secretlint/secretlint-rule-privatekey",
-    "@secretlint/secretlint-rule-secp256k1-privatekey",
 ] as const;
 
 describe("secretlint-config-nick2bad4u", () => {

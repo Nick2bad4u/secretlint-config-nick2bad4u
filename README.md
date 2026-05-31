@@ -24,8 +24,8 @@ const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
  * @type {import("@secretlint/types").SecretLintConfigDescriptor}
  */
 const secretlintConfig = {
-    ...sharedConfig,
-    rules: [...sharedConfig.rules],
+ ...sharedConfig,
+ rules: [...sharedConfig.rules],
 };
 
 module.exports = secretlintConfig;
@@ -52,11 +52,11 @@ const sharedConfig = require("secretlint-config-nick2bad4u/secretlintrc.json");
  * @type {import("@secretlint/types").SecretLintConfigDescriptor}
  */
 const secretlintConfig = {
-    ...sharedConfig,
-    rules: [
-        ...sharedConfig.rules,
-        // { id: "@secretlint/secretlint-rule-pattern", options: {} }, // your override here
-    ],
+ ...sharedConfig,
+ rules: [
+  ...sharedConfig.rules,
+  // { id: "@secretlint/secretlint-rule-pattern", options: {} }, // your override here
+ ],
 };
 
 module.exports = secretlintConfig;
@@ -73,7 +73,9 @@ The shared config currently enables:
 
 - `@secretlint/secretlint-rule-anthropic`
 - `@secretlint/secretlint-rule-aws`
+- `@secretlint/secretlint-rule-basicauth`
 - `@secretlint/secretlint-rule-database-connection-string`
+- `@secretlint/secretlint-rule-filter-comments`
 - `@secretlint/secretlint-rule-gcp`
 - `@secretlint/secretlint-rule-github`
 - `@secretlint/secretlint-rule-no-dotenv`
@@ -82,7 +84,6 @@ The shared config currently enables:
 - `@secretlint/secretlint-rule-openai`
 - `@secretlint/secretlint-rule-pattern`
 - `@secretlint/secretlint-rule-privatekey`
-- `@secretlint/secretlint-rule-secp256k1-privatekey`
 
 `@secretlint/secretlint-rule-preset-recommend` is installed with the package for consumers that want to append the recommended preset explicitly. It is not enabled by default because the shared config already configures several overlapping rules with project-safe example allowlists; enabling both would create duplicate reports and bypass those allowlists.
 

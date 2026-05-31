@@ -6,7 +6,9 @@ Use this from each consuming repo root.
 npm uninstall --save-dev `
   @secretlint/secretlint-rule-anthropic `
   @secretlint/secretlint-rule-aws `
+  @secretlint/secretlint-rule-basicauth `
   @secretlint/secretlint-rule-database-connection-string `
+  @secretlint/secretlint-rule-filter-comments `
   @secretlint/secretlint-rule-gcp `
   @secretlint/secretlint-rule-github `
   @secretlint/secretlint-rule-no-dotenv `
@@ -16,7 +18,6 @@ npm uninstall --save-dev `
   @secretlint/secretlint-rule-pattern `
   @secretlint/secretlint-rule-preset-recommend `
   @secretlint/secretlint-rule-privatekey `
-  @secretlint/secretlint-rule-secp256k1-privatekey `
   @secretlint/types
 ```
 
@@ -117,7 +118,9 @@ npx secretlint --secretlintrc .secretlintrc.cjs --secretlintignore .gitignore "*
 npm uninstall --save-dev --force `
   @secretlint/secretlint-rule-anthropic `
   @secretlint/secretlint-rule-aws `
+  @secretlint/secretlint-rule-basicauth `
   @secretlint/secretlint-rule-database-connection-string `
+  @secretlint/secretlint-rule-filter-comments `
   @secretlint/secretlint-rule-gcp `
   @secretlint/secretlint-rule-github `
   @secretlint/secretlint-rule-no-dotenv `
@@ -127,7 +130,6 @@ npm uninstall --save-dev --force `
   @secretlint/secretlint-rule-pattern `
   @secretlint/secretlint-rule-preset-recommend `
   @secretlint/secretlint-rule-privatekey `
-  @secretlint/secretlint-rule-secp256k1-privatekey `
   @secretlint/types
 
 npm install --save-dev secretlint secretlint-config-nick2bad4u --force
