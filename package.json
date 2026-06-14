@@ -80,7 +80,8 @@
         "typecheck:all": "npm run typecheck",
         "types:update": "typesync",
         "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:node-version-files",
-        "verify": "npm run release:verify"
+        "verify": "npm run release:verify",
+        "update-actions": "npx actions-up --yes --style sha"
     },
     "dependencies": {
         "@secretlint/secretlint-rule-anthropic": "^13.0.2",
