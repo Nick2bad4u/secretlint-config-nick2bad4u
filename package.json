@@ -1,146 +1,146 @@
 {
-  "$schema": "https://www.schemastore.org/package.json",
-  "name": "secretlint-config-nick2bad4u",
-  "version": "1.1.0",
-  "private": false,
-  "description": "Shared Secretlint config for Nick2bad4u projects.",
-  "keywords": [
-    "secretlint",
-    "secretlint-config",
-    "secrets",
-    "security",
-    "sast"
-  ],
-  "homepage": "https://github.com/Nick2bad4u/secretlint-config-nick2bad4u#readme",
-  "bugs": {
-    "url": "https://github.com/Nick2bad4u/secretlint-config-nick2bad4u/issues",
-    "email": "20943337+Nick2bad4u@users.noreply.github.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Nick2bad4u/secretlint-config-nick2bad4u.git"
-  },
-  "license": "MIT",
-  "author": "Nick2bad4u <20943337+Nick2bad4u@users.noreply.github.com> (https://github.com/Nick2bad4u)",
-  "contributors": [
-    {
-      "name": "Nick2bad4u",
-      "email": "20943337+Nick2bad4u@users.noreply.github.com",
-      "url": "https://github.com/Nick2bad4u"
-    }
-  ],
-  "sideEffects": false,
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "import": "./preset.mjs",
-      "require": null
+    "$schema": "https://www.schemastore.org/package.json",
+    "name": "secretlint-config-nick2bad4u",
+    "version": "1.1.0",
+    "private": false,
+    "description": "Shared Secretlint config for Nick2bad4u projects.",
+    "keywords": [
+        "secretlint",
+        "secretlint-config",
+        "secrets",
+        "security",
+        "sast"
+    ],
+    "homepage": "https://github.com/Nick2bad4u/secretlint-config-nick2bad4u#readme",
+    "bugs": {
+        "url": "https://github.com/Nick2bad4u/secretlint-config-nick2bad4u/issues",
+        "email": "20943337+Nick2bad4u@users.noreply.github.com"
     },
-    "./package.json": "./package.json",
-    "./secretlintrc.json": "./.secretlintrc.json"
-  },
-  "main": "./preset.mjs",
-  "types": "./index.d.ts",
-  "files": [
-    ".secretlintrc.json",
-    "index.d.ts",
-    "preset.mjs"
-  ],
-  "scripts": {
-    "build": "npm run typecheck",
-    "changelog:generate": "git-cliff --config cliff.toml --output CHANGELOG.md",
-    "changelog:preview": "git-cliff --config cliff.toml --unreleased",
-    "changelog:release-notes": "git-cliff --config cliff.toml --current --strip all",
-    "coverage": "vitest run --coverage",
-    "lint": "cross-env NODE_OPTIONS=--max_old_space_size=8192 eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache",
-    "lint:all": "npm run lint && npm run typecheck && npm run test && npm run lint:prettier && npm run lint:package && npm run lint:yaml && npm run lint:secretlint",
-    "lint:all:fix": "npm run lint:fix && npm run lint:prettier:fix && npm run lint:package:fix && npm run typecheck && npm run test && npm run lint:yaml:fix && npm run lint:secretlint",
-    "lint:attw": "attw --pack . --profile esm-only",
-    "lint:fix": "npm run lint -- --fix",
-    "lint:package": "npm run lint:package-sort && npm run lint:package-json && npm run lint:package-check",
-    "lint:package:fix": "sort-package-json package.json",
-    "lint:package-check": "npm run package:check && npm run lint:publint && npm run lint:attw",
-    "lint:package-fix": "npm run lint:package:fix",
-    "lint:package-json": "npmPkgJsonLint . --config .npmpackagejsonlintrc.json",
-    "lint:package-sort": "sort-package-json --check package.json",
-    "lint:prettier": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --check",
-    "lint:prettier:fix": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
-    "lint:publint": "publint",
-    "lint:secretlint": "secretlint --secretlintrc .secretlintrc.json --secretlintignore .gitignore \"**/*\"",
-    "lint:yaml": "eslint --cache --cache-strategy content --cache-location .cache/.eslintcache \"**/*.{yml,yaml}\"",
-    "lint:yaml:fix": "npm run lint:yaml -- --fix",
-    "package:check": "npm pack --dry-run",
-    "release:check": "npm run release:verify",
-    "release:verify": "npm run build && npm run lint:all && npm run lint:package-check",
-    "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
-    "test": "vitest run",
-    "test:coverage": "npm run coverage",
-    "typecheck": "tsc -p tsconfig.build.json && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.eslint.json --noEmit && tsc -p tsconfig.js.json --noEmit && tsc -p tsconfig.vitest-typecheck.json --noEmit",
-    "typecheck:all": "npm run typecheck",
-    "types:update": "typesync",
-    "update-actions": "npx actions-up --yes --style sha",
-    "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:node-version-files",
-    "verify": "npm run release:verify"
-  },
-  "dependencies": {
-    "@secretlint/secretlint-rule-anthropic": "^13.0.2",
-    "@secretlint/secretlint-rule-aws": "^13.0.2",
-    "@secretlint/secretlint-rule-basicauth": "^13.0.2",
-    "@secretlint/secretlint-rule-database-connection-string": "^13.0.2",
-    "@secretlint/secretlint-rule-filter-comments": "^13.0.2",
-    "@secretlint/secretlint-rule-gcp": "^13.0.2",
-    "@secretlint/secretlint-rule-github": "^13.0.2",
-    "@secretlint/secretlint-rule-no-dotenv": "^13.0.2",
-    "@secretlint/secretlint-rule-no-homedir": "^13.0.2",
-    "@secretlint/secretlint-rule-npm": "^13.0.2",
-    "@secretlint/secretlint-rule-openai": "^13.0.2",
-    "@secretlint/secretlint-rule-pattern": "^13.0.2",
-    "@secretlint/secretlint-rule-preset-recommend": "^13.0.2",
-    "@secretlint/secretlint-rule-privatekey": "^13.0.2",
-    "@secretlint/types": "^13.0.2"
-  },
-  "devDependencies": {
-    "@arethetypeswrong/cli": "^0.18.3",
-    "@types/node": "^25.9.1",
-    "@vitest/coverage-v8": "^4.1.7",
-    "cross-env": "^10.1.0",
-    "eslint": "^10.5.0",
-    "eslint-config-nick2bad4u": "^2.0.4",
-    "git-cliff": "^2.13.1",
-    "npm-package-json-lint": "^10.4.0",
-    "picocolors": "^1.1.1",
-    "prettier": "^3.8.3",
-    "prettier-config-nick2bad4u": "^1.0.13",
-    "publint": "^0.3.21",
-    "secretlint": "^13.0.2",
-    "sort-package-json": "^3.6.1",
-    "typescript": "^6.0.3",
-    "vite": "^8.0.14",
-    "vitest": "^4.1.7"
-  },
-  "peerDependencies": {
-    "secretlint": "^13.0.0"
-  },
-  "packageManager": "npm@11.16.0",
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "devEngines": {
-    "runtime": {
-      "name": "node",
-      "version": ">=22.0.0",
-      "onFail": "error"
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Nick2bad4u/secretlint-config-nick2bad4u.git"
     },
-    "packageManager": {
-      "name": "npm",
-      "version": ">=11.0.0",
-      "onFail": "error"
-    }
-  },
-  "publishConfig": {
-    "provenance": true,
-    "registry": "https://registry.npmjs.org/"
-  },
-  "readme": "README.md"
+    "license": "MIT",
+    "author": "Nick2bad4u <20943337+Nick2bad4u@users.noreply.github.com> (https://github.com/Nick2bad4u)",
+    "contributors": [
+        {
+            "name": "Nick2bad4u",
+            "email": "20943337+Nick2bad4u@users.noreply.github.com",
+            "url": "https://github.com/Nick2bad4u"
+        }
+    ],
+    "sideEffects": false,
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./index.d.ts",
+            "import": "./preset.mjs",
+            "require": null
+        },
+        "./package.json": "./package.json",
+        "./secretlintrc.json": "./.secretlintrc.json"
+    },
+    "main": "./preset.mjs",
+    "types": "./index.d.ts",
+    "files": [
+        ".secretlintrc.json",
+        "index.d.ts",
+        "preset.mjs"
+    ],
+    "scripts": {
+        "build": "npm run typecheck",
+        "changelog:generate": "git-cliff --config cliff.toml --output CHANGELOG.md",
+        "changelog:preview": "git-cliff --config cliff.toml --unreleased",
+        "changelog:release-notes": "git-cliff --config cliff.toml --current --strip all",
+        "coverage": "vitest run --coverage",
+        "lint": "cross-env NODE_OPTIONS=--max_old_space_size=8192 eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache",
+        "lint:all": "npm run lint && npm run typecheck && npm run test && npm run lint:prettier && npm run lint:package && npm run lint:yaml && npm run lint:secretlint",
+        "lint:all:fix": "npm run lint:fix && npm run lint:prettier:fix && npm run lint:package:fix && npm run typecheck && npm run test && npm run lint:yaml:fix && npm run lint:secretlint",
+        "lint:attw": "attw --pack . --profile esm-only",
+        "lint:fix": "npm run lint -- --fix",
+        "lint:package": "npm run lint:package-sort && npm run lint:package-json && npm run lint:package-check",
+        "lint:package:fix": "sort-package-json package.json",
+        "lint:package-check": "npm run package:check && npm run lint:publint && npm run lint:attw",
+        "lint:package-fix": "npm run lint:package:fix",
+        "lint:package-json": "npmPkgJsonLint . --config .npmpackagejsonlintrc.json",
+        "lint:package-sort": "sort-package-json --check package.json",
+        "lint:prettier": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --check",
+        "lint:prettier:fix": "prettier . --log-level warn --cache --cache-location=.cache/.prettier-cache --cache-strategy=content --write",
+        "lint:publint": "publint",
+        "lint:secretlint": "secretlint --secretlintrc .secretlintrc.json --secretlintignore .gitignore \"**/*\"",
+        "lint:yaml": "eslint --cache --cache-strategy content --cache-location .cache/.eslintcache \"**/*.{yml,yaml}\"",
+        "lint:yaml:fix": "npm run lint:yaml -- --fix",
+        "package:check": "npm pack --dry-run",
+        "release:check": "npm run release:verify",
+        "release:verify": "npm run build && npm run lint:all && npm run lint:package-check",
+        "sync:node-version-files": "node scripts/sync-node-version-files.mjs",
+        "test": "vitest run",
+        "test:coverage": "npm run coverage",
+        "typecheck": "tsc -p tsconfig.build.json && tsc -p tsconfig.json --noEmit && tsc -p tsconfig.eslint.json --noEmit && tsc -p tsconfig.js.json --noEmit && tsc -p tsconfig.vitest-typecheck.json --noEmit",
+        "typecheck:all": "npm run typecheck",
+        "types:update": "typesync",
+        "update-actions": "npx actions-up --yes --style sha",
+        "update-deps": "npx ncu -i --install never && npm update --force && npm install --force && npm run sync:node-version-files",
+        "verify": "npm run release:verify"
+    },
+    "dependencies": {
+        "@secretlint/secretlint-rule-anthropic": "^13.0.2",
+        "@secretlint/secretlint-rule-aws": "^13.0.2",
+        "@secretlint/secretlint-rule-basicauth": "^13.0.2",
+        "@secretlint/secretlint-rule-database-connection-string": "^13.0.2",
+        "@secretlint/secretlint-rule-filter-comments": "^13.0.2",
+        "@secretlint/secretlint-rule-gcp": "^13.0.2",
+        "@secretlint/secretlint-rule-github": "^13.0.2",
+        "@secretlint/secretlint-rule-no-dotenv": "^13.0.2",
+        "@secretlint/secretlint-rule-no-homedir": "^13.0.2",
+        "@secretlint/secretlint-rule-npm": "^13.0.2",
+        "@secretlint/secretlint-rule-openai": "^13.0.2",
+        "@secretlint/secretlint-rule-pattern": "^13.0.2",
+        "@secretlint/secretlint-rule-preset-recommend": "^13.0.2",
+        "@secretlint/secretlint-rule-privatekey": "^13.0.2",
+        "@secretlint/types": "^13.0.2"
+    },
+    "devDependencies": {
+        "@arethetypeswrong/cli": "^0.18.3",
+        "@types/node": "^25.9.1",
+        "@vitest/coverage-v8": "^4.1.7",
+        "cross-env": "^10.1.0",
+        "eslint": "^10.5.0",
+        "eslint-config-nick2bad4u": "^2.0.4",
+        "git-cliff": "^2.13.1",
+        "npm-package-json-lint": "^10.4.0",
+        "picocolors": "^1.1.1",
+        "prettier": "^3.8.3",
+        "prettier-config-nick2bad4u": "^1.0.13",
+        "publint": "^0.3.21",
+        "secretlint": "^13.0.2",
+        "sort-package-json": "^3.6.1",
+        "typescript": "^6.0.3",
+        "vite": "^8.0.14",
+        "vitest": "^4.1.7"
+    },
+    "peerDependencies": {
+        "secretlint": "^13.0.0"
+    },
+    "packageManager": "npm@11.16.0",
+    "engines": {
+        "node": ">=22.0.0"
+    },
+    "devEngines": {
+        "runtime": {
+            "name": "node",
+            "version": ">=22.0.0",
+            "onFail": "error"
+        },
+        "packageManager": {
+            "name": "npm",
+            "version": ">=11.0.0",
+            "onFail": "error"
+        }
+    },
+    "publishConfig": {
+        "provenance": true,
+        "registry": "https://registry.npmjs.org/"
+    },
+    "readme": "README.md"
 }
