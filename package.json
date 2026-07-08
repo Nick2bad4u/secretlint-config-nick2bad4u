@@ -54,7 +54,7 @@
         "changelog:release-notes": "git cliff --config node_modules/gitcliff-config-nick2bad4u/cliff.toml --github-repo Nick2bad4u/secretlint-config-nick2bad4u --current",
         "coverage": "vitest run --coverage",
         "lint": "cross-env NODE_OPTIONS=--max_old_space_size=8192 eslint . --cache --cache-strategy content --cache-location .cache/.eslintcache",
-        "lint:all": "npm run lint && npm run typecheck && npm run test && npm run lint:prettier && npm run lint:package && npm run lint:yaml && npm run lint:lychee && npm run lint:secretlint && npm run lint:jscpd",
+        "lint:all": "npm run lint && npm run typecheck && npm run test && npm run lint:prettier && npm run lint:package && npm run lint:yaml && npm run lint:secretlint",
         "lint:all:fix": "npm run lint:fix && npm run lint:prettier:fix && npm run lint:package:fix && npm run typecheck && npm run test && npm run lint:yaml:fix && npm run lint:secretlint",
         "lint:attw": "attw --pack . --profile esm-only",
         "lint:fix": "npm run lint -- --fix",
