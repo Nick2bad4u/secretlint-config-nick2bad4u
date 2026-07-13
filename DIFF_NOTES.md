@@ -1,4 +1,4 @@
-## Template conversion notes
+# Template conversion notes
 
 This repository was converted from the shared ESLint config template into `secretlint-config-nick2bad4u`.
 

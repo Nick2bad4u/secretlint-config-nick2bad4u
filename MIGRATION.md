@@ -1,3 +1,5 @@
+# Secretlint config migration
+
 Use this from each consuming repo root.
 
 ## 1. Uninstall Secretlint rule deps now handled by shared config

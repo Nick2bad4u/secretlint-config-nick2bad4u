@@ -85,7 +85,7 @@ The shared config currently enables:
 - `@secretlint/secretlint-rule-pattern`
 - `@secretlint/secretlint-rule-privatekey`
 
-`@secretlint/secretlint-rule-preset-recommend` is installed with the package for consumers that want to append the recommended preset explicitly. It is not enabled by default because the shared config already configures several overlapping rules with project-safe example allowlists; enabling both would create duplicate reports and bypass those allowlists.
+`@secretlint/secretlint-rule-preset-recommend` is installed with the package for consumers that want to append the recommended preset explicitly. It is not enabled by default because the shared config already configures overlapping rules with project-safe example allowlists; enabling both would create duplicate reports and bypass those allowlists.
 
 ## Development checks
 

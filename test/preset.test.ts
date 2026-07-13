@@ -5,7 +5,6 @@ import defaultConfig, {
 } from "secretlint-config-nick2bad4u";
 import { describe, expect, it } from "vitest";
 
-// eslint-disable-next-line import-x/extensions -- JSON module imports require the explicit .json extension.
 import secretlintrc from "../.secretlintrc.json" with { type: "json" };
 
 const expectedRuleIds = [
