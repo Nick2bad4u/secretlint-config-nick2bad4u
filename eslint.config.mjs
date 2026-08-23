@@ -10,6 +10,27 @@ const config = [
             "tombi/tombi": "off",
         },
     },
+    {
+        files: ["preset.coverage.mjs"],
+        languageOptions: {
+            parserOptions: {
+                projectService: {
+                    allowDefaultProject: [
+                        "*.{js,mjs,cjs}",
+                        ".*.{js,mjs,cjs}",
+                        "preset.coverage.mjs",
+                    ],
+                    defaultProject: "tsconfig.js.json",
+                },
+            },
+        },
+        rules: {
+            // This JavaScript-only Node test imports the published .mjs entrypoint
+            // directly so native coverage measures the shipped runtime.
+            "@typescript-eslint/no-unsafe-call": "off",
+            "@typescript-eslint/no-unsafe-member-access": "off",
+        },
+    },
 
     // Add repository-specific config entries below as needed.
 ];

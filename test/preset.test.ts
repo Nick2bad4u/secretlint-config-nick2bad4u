@@ -1,5 +1,4 @@
 import defaultConfig, {
-    createConfig,
     defaultConfig as namedDefaultConfig,
     rules,
 } from "secretlint-config-nick2bad4u";
@@ -25,9 +24,10 @@ const expectedRuleIds = [
 
 describe("secretlint-config-nick2bad4u", () => {
     it("exports the repository Secretlint rules as the default config", () => {
-        expect.assertions(4);
+        expect.assertions(5);
 
         expect(defaultConfig).toBe(namedDefaultConfig);
+        expect(defaultConfig.rules).not.toBe(rules);
         expect(defaultConfig.rules).toStrictEqual(secretlintrc.rules);
         expect(rules).toStrictEqual(secretlintrc.rules);
         expect(
@@ -35,28 +35,5 @@ describe("secretlint-config-nick2bad4u", () => {
                 .map((rule) => rule.id)
                 .toSorted((left, right) => left.localeCompare(right))
         ).toStrictEqual(expectedRuleIds);
-    });
-
-    it("creates a fresh config object with appended project rules", () => {
-        expect.assertions(3);
-
-        const localRule = {
-            id: "@secretlint/secretlint-rule-preset-recommend",
-            rules: [],
-        };
-        const localConfig = createConfig({ rules: [localRule] });
-
-        expect(localConfig).not.toBe(defaultConfig);
-        expect(localConfig.rules).toHaveLength(rules.length + 1);
-        expect(localConfig.rules.at(-1)).toStrictEqual(localRule);
-    });
-
-    it("does not mutate the shared rule array when composing config", () => {
-        expect.assertions(2);
-
-        const localConfig = createConfig();
-
-        expect(localConfig.rules).toStrictEqual(rules);
-        expect(localConfig.rules).not.toBe(rules);
     });
 });
