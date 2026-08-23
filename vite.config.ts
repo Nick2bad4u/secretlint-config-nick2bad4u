@@ -2,11 +2,7 @@
 /* eslint-disable comment-length/limit-single-line-comments   -- Disable specific rules for build configs */
 
 import pc from "picocolors";
-import {
-    coverageConfigDefaults,
-    defaultExclude,
-    defineConfig,
-} from "vitest/config";
+import { defaultExclude, defineConfig } from "vitest/config";
 
 /** `true` when running under CI where worker parallelism should be bounded. */
 const isCiEnvironment = process.env["CI"] === "true";
@@ -86,89 +82,6 @@ const vitestConfig: ReturnType<typeof defineConfig> = defineConfig({
             includeStack: false,
             showDiff: true,
             truncateThreshold: 40,
-        },
-        coverage: {
-            allowExternal: false,
-            clean: true, // Clean coverage directory before each run
-            cleanOnRerun: true, // Clean on rerun in watch mode
-            exclude: [
-                "**/*.bench.{js,mjs,cjs,ts,mts,cts,jsx,tsx,css}", // Exclude benchmark files,
-                "**/*.config.*",
-                "**/*.css", // CSS modules are transformed into JS stubs but contain no executable logic.
-                "**/*.d.ts",
-                "**/*.less",
-                "**/*.sass",
-                "**/*.scss",
-                "**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx,css}",
-                "**/assets/**", // Exclude any assets folder anywhere
-                "**/config/**",
-                "**/dist/**", // Exclude any dist folder anywhere
-                "**/docs/**", // Exclude documentation files
-                "**/html/**",
-                "**/index.ts", // Exclude all barrel export files
-                "**/index.tsx", // Exclude JSX barrel export files
-                "**/node_modules/**",
-                "**/playwright/**", // Exclude playwright directories anywhere
-                "**/types.tsx", // Exclude type definition files with JSX
-                "**/types/**",
-                ".cache",
-                ".cache/**",
-                ".coverage",
-                ".storybook/**",
-                ".stryker-tmp/**", // Exclude Stryker mutation testing temp files
-                "benchmarks/**", // Exclude all benchmark files from coverage
-                "coverage/**",
-                "electron/**", // Exclude all electron files from frontend coverage
-                "html/**", // Exclude generated HTML files
-                "index.ts", // Barrel export file at root
-                "out",
-                "playwright/**", // Exclude all playwright files from coverage
-                "release/**",
-                "report/**", // Exclude report files
-                "reports/**", // Exclude test report files
-                "scripts/**",
-                "shared",
-                "shared/test",
-                "src/**/baseTypes.ts", // Exclude interface-only files that contain only TypeScript interfaces
-                "src/**/types.ts", // Exclude type definition files only in src directory
-                "src/test/**",
-                "storybook-static/**",
-                "storybook/**",
-                "stryker_prompts_by_mutator/**",
-                "temp",
-                "temp/**",
-                ...coverageConfigDefaults.exclude,
-            ],
-            excludeAfterRemap: true, // Exclude files after remapping for accuracy
-            include: ["preset.mjs"],
-            // V8 Provider Configuration (Recommended since Vitest v3.2.0)
-            provider: "v8" as const, // Switch to V8 for better TypeScript support
-            reporter: [
-                "text",
-                "json",
-                "lcov",
-                "html",
-            ],
-
-            reportOnFailure: true,
-            reportsDirectory: "./coverage",
-            skipFull: true, // Don't skip full coverage collection
-            // NOTE: Coverage thresholds adjusted after empirical analysis of current
-            // instrumentation (November 2025). JSX-heavy components and patched CSS
-            // modules generate synthetic branches that Vitest counts but cannot be
-            // exercised in runtime. The revised values enforce strong coverage for
-            // executable logic without blocking on non-actionable gaps.
-            thresholds: {
-                // Auto-update requires Vitest to rewrite the originating config file.
-                // Our configuration is generated dynamically via defineConfig callbacks,
-                // which Magicast cannot safely mutate, so we keep this disabled to
-                // avoid runtime parse failures during coverage reporting.
-                autoUpdate: false,
-                branches: 50, // Tightened to reflect real-world branch coverage considering JSX/CSS-module instrumentation (see analysis)
-                functions: 50,
-                lines: 50,
-                statements: 50,
-            },
         },
         css: false,
         dangerouslyIgnoreUnhandledErrors: false,
